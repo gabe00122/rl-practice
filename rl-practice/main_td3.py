@@ -27,8 +27,6 @@ class Actor(DeterministicMixin, Model):
                                  nn.ReLU(),
                                  nn.Linear(256, 256),
                                  nn.ReLU(),
-                                 nn.Linear(256, 256),
-                                 nn.ReLU(),
                                  nn.Linear(256, self.num_actions))
 
     def compute(self, inputs, role):
@@ -40,8 +38,6 @@ class Critic(DeterministicMixin, Model):
         DeterministicMixin.__init__(self, clip_actions)
 
         self.net = nn.Sequential(nn.Linear(self.num_observations + self.num_actions, 256),
-                                 nn.ReLU(),
-                                 nn.Linear(256, 256),
                                  nn.ReLU(),
                                  nn.Linear(256, 256),
                                  nn.ReLU(),
