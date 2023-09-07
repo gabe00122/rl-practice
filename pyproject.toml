@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "rl-practice"
+version = "0.1.0"
+description = ""
+authors = ["Gabriel keith <gabe.keith@yahoo.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+skrl = "^1.0.0"
+tensorboard = "^2.14.0"
+numpy = "^1.25.2"
+matplotlib = "^3.7.2"
+gymnasium = {extras = ["classic", "box2d"], version = "^0.29.1"}
+torch = "^2.0.1"
+torchvision = "^0.15.2"
+swig = "^4.1.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
