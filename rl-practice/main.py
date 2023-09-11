@@ -25,13 +25,13 @@ class Policy(GaussianMixin, Model):
         Model.__init__(self, observation_space, action_space, device)
         GaussianMixin.__init__(self, clip_actions, clip_log_std, min_log_std, max_log_std, reduction)
 
-        self.net = nn.Sequential(nn.Linear(self.num_observations, 64),
+        self.net = nn.Sequential(nn.Linear(self.num_observations, 128),
                                  nn.ReLU(),
-                                 nn.Linear(64, 64),
+                                 nn.Linear(128, 128),
                                  nn.ReLU(),
-                                 nn.Linear(64, 64),
+                                 nn.Linear(128, 128),
                                  nn.ReLU(),
-                                 nn.Linear(64, self.num_actions))
+                                 nn.Linear(128, self.num_actions))
         self.log_std_parameter = nn.Parameter(torch.zeros(self.num_actions))
 
     def compute(self, inputs, role):
@@ -42,13 +42,13 @@ class Value(DeterministicMixin, Model):
         Model.__init__(self, observation_space, action_space, device)
         DeterministicMixin.__init__(self, clip_actions)
 
-        self.net = nn.Sequential(nn.Linear(self.num_observations, 64),
+        self.net = nn.Sequential(nn.Linear(self.num_observations, 128),
                                  nn.ReLU(),
-                                 nn.Linear(64, 64),
+                                 nn.Linear(128, 128),
                                  nn.ReLU(),
-                                 nn.Linear(64, 64),
+                                 nn.Linear(128, 128),
                                  nn.ReLU(),
-                                 nn.Linear(64, 1))
+                                 nn.Linear(128, 1))
 
     def compute(self, inputs, role):
         return self.net(inputs["states"]), {}
@@ -103,7 +103,7 @@ cfg["value_preprocessor_kwargs"] = {"size": 1, "device": device}
 # logging to TensorBoard and write checkpoints (in timesteps)
 cfg["experiment"]["write_interval"] = 1000
 cfg["experiment"]["checkpoint_interval"] = 20000
-cfg["experiment"]["directory"] = "runs/torch/BipedalWalkerHardcore"
+cfg["experiment"]["directory"] = "runs/torch/BipedalWalker"
 
 agent = PPO(models=models,
             memory=memory,
@@ -113,10 +113,8 @@ agent = PPO(models=models,
             device=device)
 
 
-#agent.load("runs/torch/BipedalWalker/23-09-04_18-56-21-853812_PPO/checkpoints/best_agent.pt")
-
 # configure and instantiate the RL trainer
-cfg_trainer = {"timesteps": 5000000, "headless": True}
+cfg_trainer = {"timesteps": 10000000, "headless": False}
 
 trainer = SequentialTrainer(cfg=cfg_trainer, env=env, agents=[agent])
 
