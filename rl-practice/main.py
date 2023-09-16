@@ -16,7 +16,7 @@ from skrl.utils import set_seed
 
 # seed for reproducibility
 set_seed()  # e.g. `set_seed(42)` for fixed seed
-
+name = "CarRacePPO"
 
 # define models (stochastic and deterministic models) using mixins
 class Policy(GaussianMixin, Model):
@@ -58,7 +58,7 @@ class Value(DeterministicMixin, Model):
 # note: the environment version may change depending on the gymnasium version
 try:
     env = gym.make("BipedalWalker-v3", hardcore=False, render_mode="rgb_array")
-    env = gym.wrappers.RecordVideo(env, "videos/torch/BipedalWalker3", lambda episode: episode % 100 == 0)
+    env = gym.wrappers.RecordVideo(env, "videos/torch/" + name, lambda episode: episode % 100 == 0)
 except (gym.error.DeprecatedEnv, gym.error.VersionNotFound) as e:
     print("The environment is not available. Please install the latest version of gymnasium.")
 env = wrap_env(env)
@@ -103,7 +103,7 @@ cfg["value_preprocessor_kwargs"] = {"size": 1, "device": device}
 # logging to TensorBoard and write checkpoints (in timesteps)
 cfg["experiment"]["write_interval"] = 1000
 cfg["experiment"]["checkpoint_interval"] = 20000
-cfg["experiment"]["directory"] = "runs/torch/BipedalWalker"
+cfg["experiment"]["directory"] = "runs/torch/" + name
 
 agent = PPO(models=models,
             memory=memory,

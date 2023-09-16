@@ -12,9 +12,7 @@ tensorboard = "^2.14.0"
 numpy = "^1.25.2"
 matplotlib = "^3.7.2"
 gymnasium = {extras = ["classic", "box2d"], version = "^0.29.1"}
-torch = "^2.0.1"
-torchvision = "^0.15.2"
-swig = "^4.1.1"
+moviepy = "^1.0.3"
 
 
 [build-system]
